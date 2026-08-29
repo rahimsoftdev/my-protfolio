@@ -13,11 +13,11 @@ async function run() {
       system: `Test system`,
       messages: [{ role: 'user', content: 'Hello' }],
     });
-    
+
     console.log("Is toDataStreamResponse a function?", typeof result.toDataStreamResponse);
     console.log("Is toAIStreamResponse a function?", typeof result.toAIStreamResponse);
     console.log("Is toTextStreamResponse a function?", typeof result.toTextStreamResponse);
-    
+
     const proto = Object.getPrototypeOf(result);
     console.log("Prototype methods:", Object.getOwnPropertyNames(proto));
   } catch (error) {

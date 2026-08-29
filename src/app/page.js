@@ -3,6 +3,7 @@ import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Qualification from "@/components/Qualification";
 import Projects from "@/components/Projects";
+import GithubActivity from "@/components/GithubActivity";
 import Contact from "@/components/Contact";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
         <Skills />
         <Qualification />
         <Projects />
+        <GithubActivity />
         <Contact />
       </main>
      
