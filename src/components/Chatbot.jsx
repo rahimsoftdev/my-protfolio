@@ -75,7 +75,7 @@ export default function Chatbot() {
                         : "bg-white/5 border border-white/5 text-text-primary rounded-bl-sm"
                     }`}
                   >
-                    {m.content}
+                    {m.parts ? m.parts.map(p => p.type === 'text' ? p.text : '').join('') : m.content}
                   </div>
                 </div>
               ))}
