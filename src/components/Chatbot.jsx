@@ -7,8 +7,16 @@ import { FaCommentDots, FaTimes, FaPaperPlane } from "react-icons/fa";
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat();
+  const [input, setInput] = useState("");
+  const { messages, sendMessage, status } = useChat();
   const messagesEndRef = useRef(null);
+  
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    sendMessage({ role: 'user', content: input });
+    setInput('');
+  };
 
   // Auto scroll to bottom
   useEffect(() => {
@@ -72,7 +80,7 @@ export default function Chatbot() {
                 </div>
               ))}
               
-              {isLoading && (
+              {status !== 'ready' && status !== 'error' && (
                 <div className="flex justify-start">
                   <div className="max-w-[85%] rounded-2xl px-4 py-3 text-sm bg-white/5 border border-white/5 text-text-primary rounded-bl-sm flex space-x-1 items-center">
                     <span className="w-1.5 h-1.5 bg-brand-violet rounded-full animate-bounce [animation-delay:-0.3s]"></span>
@@ -85,17 +93,17 @@ export default function Chatbot() {
             </div>
 
             {/* Input Area */}
-            <form onSubmit={handleSubmit} className="p-3 border-t border-brand-card-border bg-brand-dark/50">
+            <form onSubmit={handleFormSubmit} className="p-3 border-t border-brand-card-border bg-brand-dark/50">
               <div className="flex items-center space-x-2">
                 <input
                   value={input}
-                  onChange={handleInputChange}
+                  onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask a question..."
                   className="flex-1 bg-white/5 border border-brand-card-border rounded-full px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-violet/50 text-text-primary placeholder:text-text-secondary transition-all"
                 />
                 <button
                   type="submit"
-                  disabled={isLoading || !input?.trim()}
+                  disabled={status !== 'ready' && status !== 'error' || !input?.trim()}
                   className="bg-brand-violet hover:bg-brand-violet-hover text-white p-3 rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-brand-violet/20"
                 >
                   <FaPaperPlane size={14} />

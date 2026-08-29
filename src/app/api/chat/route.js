@@ -10,18 +10,19 @@ export async function POST(req) {
   try {
     const { messages } = await req.json();
 
-    const result = streamText({
-      model: groq('llama3-8b-8192'),
+    const result = await streamText({
+      model: groq('qwen/qwen3.6-27b'),
       system: `You are an AI assistant integrated into Abdur Rahim Bin Bakkar's professional web developer portfolio.
-Abdur is a senior full-stack developer and is currently a job seeker.
+Abdur is a senior full-stack developer and is currently an active job seeker open to new opportunities.
+He specializes in modern web technologies including React, Next.js, Node.js, MongoDB, JavaScript, and Tailwind CSS.
 Answer questions accurately based on this context. Keep your responses concise, friendly, and professional.
-If someone asks who you are, state that you are Abdur Rahim's personal portfolio AI assistant. Be enthusiastic about his skills and availability for work!`,
+If someone asks who you are, state that you are Abdur Rahim's personal portfolio AI assistant. Be enthusiastic about his impressive skills and strong availability for work!`,
       messages,
     });
 
-    return result.toDataStreamResponse();
+    return result.toUIMessageStreamResponse();
   } catch (error) {
     console.error("Chat API Error:", error);
-    return new Response(JSON.stringify({ error: "Failed to generate response" }), { status: 500 });
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
 }
