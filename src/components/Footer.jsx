@@ -139,7 +139,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-text-muted">
-            &copy; {currentYear} Abdur Rahim. All rights reserved.
+            &copy; {currentYear} Md Rahim. All rights reserved.
           </p>
 
           <p className="text-sm text-text-muted flex items-center gap-1">

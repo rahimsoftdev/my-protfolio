@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Hi there, I'm Abdur Rahim bin Bakkar 👋</h1>
+  <h1>Hi there, I'm Md Rahim 👋</h1>
   <h3>Senior Full Stack Web Developer (MERN Stack)</h3>
   
   <p>
@@ -47,8 +47,8 @@
 ### 📈 GitHub Stats
 
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Abdur-Rahim-bin-Bakkar&show_icons=true&theme=radical" alt="Abdur Rahim's GitHub stats" />
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Abdur-Rahim-bin-Bakkar&theme=radical" alt="Abdur Rahim's GitHub streak" />
+  <img src="https://github-readme-stats.vercel.app/api?username=Abdur-Rahim-bin-Bakkar&show_icons=true&theme=radical" alt="Md Rahim's GitHub stats" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Abdur-Rahim-bin-Bakkar&theme=radical" alt="Md Rahim's GitHub streak" />
 </div>
 
 ### 🤝 Connect with Me

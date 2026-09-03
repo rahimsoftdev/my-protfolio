@@ -52,7 +52,7 @@ const Contact = () => {
     {
       icon: <FaLinkedin />,
       title: "LinkedIn",
-      value: "Abdur Rahim Bin Bakkar",
+      value: "Md Rahim",
       href: "https://www.linkedin.com/in/fswd-abdur-rahim-bin-bakkar/",
       action: "Connect",
       gradient: "from-blue-500 to-blue-600",

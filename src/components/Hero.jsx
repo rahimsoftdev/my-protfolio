@@ -65,9 +65,8 @@ const Hero = () => {
           >
             <span className="text-text-primary">Hi, I&apos;m </span>
             <br />
-            <span className="gradient-text">Abdur Rahim</span>
-            <br />
-            <span className="text-text-secondary text-2xl md:text-3xl lg:text-4xl font-medium">bin Bakkar</span>
+            <span className="gradient-text">Md Rahim</span>
+
           </motion.h1>
 
           <motion.div
@@ -149,7 +148,7 @@ const Hero = () => {
             <div className="relative w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden shadow-2xl ring-1 ring-white/10 transition-all duration-700 group-hover:scale-[1.02]">
               <Image
                 src={image}
-                alt="Abdur Rahim Profile"
+                alt="Md Rahim Profile"
                 className="w-full h-full object-cover"
               />
             </div>

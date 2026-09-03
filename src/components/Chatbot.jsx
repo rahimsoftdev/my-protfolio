@@ -40,7 +40,7 @@ export default function Chatbot() {
             <div className="bg-brand-violet/10 border-b border-brand-card-border p-4 flex justify-between items-center">
               <div>
                 <h3 className="font-semibold text-lg text-text-primary">AI Assistant</h3>
-                <p className="text-xs text-text-secondary">Ask me about Abdur Rahim!</p>
+                <p className="text-xs text-text-secondary">Ask me about Md Rahim!</p>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
