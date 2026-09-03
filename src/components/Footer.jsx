@@ -38,7 +38,7 @@ const Footer = () => {
             className="lg:col-span-1"
           >
             <h2 className="text-3xl font-black mb-4">
-              Abdur{" "}
+              Md{" "}
               <span className="bg-gradient-to-r from-violet-400 to-violet-500 bg-clip-text text-transparent">
                 Rahim
               </span>

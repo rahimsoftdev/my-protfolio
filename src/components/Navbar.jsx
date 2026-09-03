@@ -79,7 +79,7 @@ const Navbar = () => {
             />
           </div>
           <span className="hidden sm:block font-bold text-lg text-text-primary">
-            Abdur <span className="text-violet-500">Rahim</span>
+            Md <span className="text-violet-500">Rahim</span>
           </span>
         </motion.a>
 

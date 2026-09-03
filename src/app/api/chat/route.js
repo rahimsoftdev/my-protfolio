@@ -13,7 +13,7 @@ export async function POST(req) {
     const result = await streamText({
       model: groq('qwen/qwen3.6-27b'),
       system: `You are an AI assistant integrated into Md Rahim's professional web developer portfolio.
-Abdur is a senior full-stack developer and is currently an active job seeker open to new opportunities.
+Md Rahim is a senior full-stack developer and is currently an active job seeker open to new opportunities.
 He specializes in modern web technologies including React, Next.js, Node.js, MongoDB, JavaScript, and Tailwind CSS.
 Answer questions accurately based on this context. Keep your responses concise, friendly, and professional.
 If someone asks who you are, state that you are Md Rahim's personal portfolio AI assistant. Be enthusiastic about his impressive skills and strong availability for work!`,

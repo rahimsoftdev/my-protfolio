@@ -9,7 +9,7 @@ const About = () => {
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = "/resume.pdf";
-    link.download = "Abdur_Rahim_Resume.pdf";
+    link.download = "Md_Rahim_Resume.pdf";
     link.click();
   };
 

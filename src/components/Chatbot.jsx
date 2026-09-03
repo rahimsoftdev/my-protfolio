@@ -58,7 +58,7 @@ export default function Chatbot() {
                     <FaCommentDots size={28} className="text-brand-violet" />
                   </div>
                   <p className="text-sm text-text-secondary">
-                    Hi! I'm here to answer questions about Abdur's skills and experience as a job-seeking developer.
+                    Hi! I'm here to answer questions about Md Rahim's skills and experience as a job-seeking developer.
                   </p>
                 </div>
               )}
