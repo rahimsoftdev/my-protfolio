@@ -16,7 +16,7 @@ import { GitHubCalendar } from "react-github-calendar";
 
 
 const GithubActivity = () => {
-  const username = "Abdur-Rahim-bin-Bakkar";
+  const username = "rahimsoftdev";
 
   const [user, setUser] = useState(null);
   const [repos, setRepos] = useState([]);

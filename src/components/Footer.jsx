@@ -49,9 +49,9 @@ const Footer = () => {
             </p>
             <div className="mt-6 flex gap-4">
               {[
-                { icon: <FaGithub />, href: "https://github.com/Abdur-Rahim-bin-Bakkar" },
-                { icon: <FaLinkedin />, href: "https://www.linkedin.com/in/fswd-abdur-rahim-bin-bakkar/" },
-                { icon: <FaFacebook />, href: "https://www.facebook.com/profile.php?id=61582681106407" },
+                { icon: <FaGithub />, href: "https://github.com/rahimsoftdev" },
+                { icon: <FaLinkedin />, href: "https://www.linkedin.com/in/rahimsoftdev/" },
+                { icon: <FaFacebook />, href: "https://web.facebook.com/rahimsoftdev/" },
               ].map((social, i) => (
                 <a
                   key={i}
