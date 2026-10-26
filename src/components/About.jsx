@@ -22,7 +22,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="relative py-16 md:py-20 lg:py-24 bg-white dark:bg-background overflow-hidden"
+      className="relative py-16 md:py-20 lg:py-24 dark:bg-background overflow-hidden"
     >
       {/* MAIN CONTAINER — same width as navbar */}
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
