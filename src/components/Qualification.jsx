@@ -9,187 +9,123 @@ import {
   FaAward,
 } from "react-icons/fa";
 
+const education = [
+  {
+    title: "Diploma in Engineering",
+    institute: "Tangail Polytechnic Institute",
+    period: "2023 - Present",
+    icon: <FaGraduationCap />,
+    description:
+      "Currently studying Computer Science & Technology and building full-stack projects.",
+  },
+  {
+    title: "Secondary School Certificate",
+    institute: "Barai Bari AKU Institution",
+    period: "2022",
+    icon: <FaAward />,
+    description: "Completed SSC with GPA 5.00.",
+  },
+  {
+    title: "Junior School Certificate",
+    institute: "Barai Bari AKU Institution",
+    period: "2019",
+    icon: <FaBookOpen />,
+    description: "Completed Junior School Certificate successfully.",
+  },
+  {
+    title: "Primary School Certificate",
+    institute: "Barai Bari AKU Institution",
+    period: "2016",
+    icon: <FaSchool />,
+    description: "Completed Primary education successfully.",
+  },
+  {
+    title: "Primary Education Started",
+    institute: "Barai Bari Primary School",
+    period: "2010",
+    icon: <FaSchool />,
+    description: "Started educational journey with curiosity.",
+  },
+];
+
+const TimelineCard = ({ item, isLeft }) => (
+  <div
+    className={`w-full max-w-md p-4 sm:p-5 lg:p-6 rounded-2xl border border-gray-200 dark:border-brand-card-border bg-gray-50 dark:bg-brand-card/40 text-left ${
+      isLeft ? "md:ml-auto md:text-right" : ""
+    }`}
+  >
+    <div
+      className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-base sm:text-lg rounded-xl bg-[#42F29E] text-gray-900 ${
+        isLeft ? "md:ml-auto" : ""
+      }`}
+    >
+      {item.icon}
+    </div>
+    <h3 className="text-base sm:text-lg font-bold mt-3 sm:mt-4 text-gray-900 dark:text-text-primary">
+      {item.title}
+    </h3>
+    <p className="text-xs sm:text-sm mt-1 font-medium text-gray-700 dark:text-[#42F29E]">
+      {item.institute}
+    </p>
+    <p className="text-gray-600 dark:text-text-secondary mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed">
+      {item.description}
+    </p>
+    <span className="inline-block mt-3 sm:mt-4 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-semibold bg-[#42F29E] text-gray-900">
+      {item.period}
+    </span>
+  </div>
+);
+
 const Qualification = () => {
-  const education = [
-    {
-      title: "Diploma in Engineering",
-      institute: "Tangail Polytechnic Institute",
-      period: "2023 - Present",
-      icon: <FaGraduationCap />,
-      gradient: "from-violet-500 to-fuchsia-500",
-      description:
-        "Currently studying Computer Science & Technology and building full-stack projects.",
-    },
-    {
-      title: "Secondary School Certificate",
-      institute: "Barai Bari AKU Institution",
-      period: "2022",
-      icon: <FaAward />,
-      gradient: "from-emerald-500 to-teal-500",
-      description: "Completed SSC with GPA 5.00.",
-    },
-    {
-      title: "Junior School Certificate",
-      institute: "Barai Bari AKU Institution",
-      period: "2019",
-      icon: <FaBookOpen />,
-      gradient: "from-blue-500 to-cyan-500",
-      description: "Completed Junior School Certificate successfully.",
-    },
-    {
-      title: "Primary School Certificate",
-      institute: "Barai Bari AKU Institution",
-      period: "2016",
-      icon: <FaSchool />,
-      gradient: "from-violet-500 to-violet-500",
-      description: "Completed Primary education successfully.",
-    },
-    {
-      title: "Primary Education Started",
-      institute: "Barai Bari Primary School",
-      period: "2010",
-      icon: <FaSchool />,
-      gradient: "from-violet-500 to-violet-500",
-      description: "Started educational journey with curiosity.",
-    },
-  ];
-
   return (
-    <section id="qualifications" className="relative py-32 bg-background overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-violet-500/5 to-violet-500/5 blur-[120px] rounded-full" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-violet-500/5 to-violet-500/5 blur-[120px] rounded-full" />
-
-      <div className="max-w-6xl mx-auto px-4 relative z-10">
+    <section
+      id="qualifications"
+      className="relative pb-16 md:pb-20 lg:pb-24 dark:bg-background overflow-hidden"
+    >
+      {/* MAIN CONTAINER — same width as navbar */}
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-10 md:mb-14"
         >
-          <p className="text-violet-500 font-medium tracking-widest uppercase text-sm mb-3">My Journey</p>
-          <h2 className="text-4xl md:text-5xl font-extrabold">
-            Qualification <span className="gradient-text">Timeline</span>
+          <p className="text-[#42F29E] font-medium tracking-widest uppercase text-xs sm:text-sm mb-2">
+            My Journey
+          </p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-text-primary">
+            Qualification <span className="text-[#42F29E]">Timeline</span>
           </h2>
-          <div className="mt-4 mx-auto w-20 h-1 bg-gradient-to-r from-violet-500 to-violet-500 rounded-full" />
+          <div className="mt-3 mx-auto w-16 h-1 bg-[#42F29E] rounded-full" />
         </motion.div>
 
         {/* Timeline */}
         <div className="relative">
-          {/* Animated center line */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-[2px] h-full">
-            <motion.div
-              initial={{ height: 0 }}
-              whileInView={{ height: "100%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 2, ease: "easeInOut" }}
-              className="w-full bg-gradient-to-b from-violet-500 via-violet-500 to-violet-500 rounded-full"
-            />
-          </div>
+          {/* Vertical line: left on mobile, center from md up */}
+          <div className="absolute top-0 bottom-0 left-[7px] md:left-1/2 md:-translate-x-1/2 w-0.5 bg-[#42F29E]/40 rounded-full" />
 
-          <div className="space-y-12">
+          <div className="space-y-6 sm:space-y-8 md:space-y-10">
             {education.map((item, index) => {
               const isLeft = index % 2 === 0;
 
               return (
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: isLeft ? -60 : 60 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  key={item.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="relative md:grid md:grid-cols-2 items-center gap-10"
+                  transition={{ duration: 0.5 }}
+                  className="relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-12 lg:gap-16 items-center"
                 >
+                  {/* Dot */}
+                  <span className="absolute left-0 top-5 md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-4 h-4 rounded-full bg-[#42F29E] border-[3px] border-white dark:border-background" />
 
-                  {/* LEFT SIDE (desktop) */}
-                  <div className={`hidden md:block ${isLeft ? "text-right" : ""}`}>
-                    {isLeft && (
-                      <div className="ml-auto max-w-md p-6 rounded-2xl bg-brand-card/40 border border-brand-card-border backdrop-blur-sm hover:border-violet-500/20 transition-all duration-300">
-                        <div className={`w-12 h-12 ml-auto flex items-center justify-center text-white text-lg rounded-xl bg-gradient-to-r ${item.gradient} shadow-lg`}>
-                          {item.icon}
-                        </div>
-                        <h3 className="text-lg font-bold mt-4 text-text-primary">
-                          {item.title}
-                        </h3>
-                        <p className="text-violet-400 text-sm mt-1 font-medium">
-                          {item.institute}
-                        </p>
-                        <p className="text-text-secondary mt-3 text-sm leading-relaxed">
-                          {item.description}
-                        </p>
-                        <span className={`inline-block mt-4 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r ${item.gradient} text-white`}>
-                          {item.period}
-                        </span>
-                      </div>
-                    )}
+                  {/* Card (left or right column on md+) */}
+                  <div className={isLeft ? "md:col-start-1" : "md:col-start-2"}>
+                    <TimelineCard item={item} isLeft={isLeft} />
                   </div>
-
-                  {/* CENTER DOT */}
-                  <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1, type: "spring" }}
-                      className={`w-5 h-5 rounded-full bg-gradient-to-r ${item.gradient} border-[3px] border-background shadow-lg shadow-violet-500/20`}
-                    />
-                  </div>
-
-                  {/* RIGHT SIDE (desktop) */}
-                  <div className={`hidden md:block ${!isLeft ? "text-left" : ""}`}>
-                    {!isLeft && (
-                      <div className="mr-auto max-w-md p-6 rounded-2xl bg-brand-card/40 border border-brand-card-border backdrop-blur-sm hover:border-violet-500/20 transition-all duration-300">
-                        <div className={`w-12 h-12 flex items-center justify-center text-white text-lg rounded-xl bg-gradient-to-r ${item.gradient} shadow-lg`}>
-                          {item.icon}
-                        </div>
-                        <h3 className="text-lg font-bold mt-4 text-text-primary">
-                          {item.title}
-                        </h3>
-                        <p className="text-violet-400 text-sm mt-1 font-medium">
-                          {item.institute}
-                        </p>
-                        <p className="text-text-secondary mt-3 text-sm leading-relaxed">
-                          {item.description}
-                        </p>
-                        <span className={`inline-block mt-4 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r ${item.gradient} text-white`}>
-                          {item.period}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* MOBILE */}
-                  <div className="md:hidden">
-                    <div className="relative pl-8">
-                      {/* Mobile line */}
-                      <div className="absolute left-2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-violet-500/50 to-violet-500/50 rounded-full" />
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        whileInView={{ scale: 1 }}
-                        viewport={{ once: true }}
-                        className={`absolute left-0 top-2 w-4 h-4 rounded-full bg-gradient-to-r ${item.gradient} border-[2px] border-background shadow-lg`}
-                      />
-                      <div className="p-5 rounded-2xl bg-brand-card/40 border border-brand-card-border backdrop-blur-sm">
-                        <div className={`w-10 h-10 flex items-center justify-center text-white text-sm rounded-lg bg-gradient-to-r ${item.gradient} shadow-lg`}>
-                          {item.icon}
-                        </div>
-                        <h3 className="text-base font-bold mt-3 text-text-primary">
-                          {item.title}
-                        </h3>
-                        <p className="text-violet-400 text-xs mt-1 font-medium">
-                          {item.institute}
-                        </p>
-                        <p className="text-text-secondary mt-2 text-xs leading-relaxed">
-                          {item.description}
-                        </p>
-                        <span className={`inline-block mt-3 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${item.gradient} text-white`}>
-                          {item.period}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
                 </motion.div>
               );
             })}
