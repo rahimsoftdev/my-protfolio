@@ -5,6 +5,15 @@ import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSun, FaMoon, FaTimes, FaBars } from "react-icons/fa";
 
+const navLinks = [
+  { name: "Home", href: "#home" },
+  { name: "About", href: "#about" },
+  { name: "Skills", href: "#skills" },
+  { name: "Projects", href: "#projects" },
+  { name: "Qualifications", href: "#qualifications" },
+  { name: "Contact", href: "#contact" },
+];
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,6 +30,13 @@ const Navbar = () => {
       setIsScrolled(window.scrollY > 30);
     };
 
+    // Close the mobile/tablet menu when the screen grows to desktop size
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setIsMenuOpen(false);
+    };
+
+    handleScroll();
+
     const sections = document.querySelectorAll("section[id]");
     const observer = new IntersectionObserver(
       (entries) => {
@@ -35,128 +51,160 @@ const Navbar = () => {
 
     sections.forEach((section) => observer.observe(section));
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize);
     return () => {
       cancelAnimationFrame(id);
       window.removeEventListener("scroll", handleScroll);
-      sections.forEach((section) => observer.unobserve(section));
+      window.removeEventListener("resize", handleResize);
+      observer.disconnect();
     };
   }, []);
 
   if (!mounted) return null;
 
-  const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Qualifications", href: "#qualifications" },
-    { name: "Contact", href: "#contact" },
-  ];
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-brand-dark/80 backdrop-blur-xl border-b border-brand-card-border shadow-lg shadow-black/10"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-500
+        bg-white border-b border-gray-200
+        ${isScrolled || isMenuOpen ? "shadow-md shadow-black/5" : "shadow-none"}
+        ${
+          isScrolled || isMenuOpen
+            ? "dark:bg-brand-dark/80 dark:backdrop-blur-xl dark:border-brand-card-border dark:shadow-black/10"
+            : "dark:bg-transparent dark:border-transparent"
+        }`}
     >
-      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16 md:h-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
         {/* LOGO */}
         <motion.a
           href="#home"
           whileHover={{ scale: 1.05 }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 sm:gap-3 shrink-0"
         >
           <div className="relative">
-             <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-violet-500 rounded-full blur-sm opacity-60" />
-             {/* eslint-disable-next-line @next/next/no-img-element */}
-             <img
+            <div className="absolute inset-0 bg-[#42F29E] rounded-full blur-sm opacity-60" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="/me.png"
               alt="logo"
-              className="relative w-10 h-10 md:w-12 md:h-12 rounded-full border border-violet-500/30 object-cover"
+              className="relative w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[#42F29E]/60 object-cover"
             />
           </div>
-          <span className="hidden sm:block font-bold text-lg text-text-primary">
-            Md <span className="text-violet-500">Rahim</span>
+          <span className="block font-bold text-base sm:text-lg md:text-xl text-gray-900 dark:text-text-primary whitespace-nowrap">
+            Md{" "}
+            <span className="text-[#42F29E] drop-shadow-[0_0_8px_rgba(66,242,158,0.35)]">
+              Rahim
+            </span>
           </span>
         </motion.a>
 
-        {/* DESKTOP MENU */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link, i) => (
-            <a
-              key={i}
-              href={link.href}
-              className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
-                activeSection === link.href.replace("#", "")
-                  ? "text-violet-400 bg-violet-500/10"
-                  : "text-gray-400 hover:text-text-primary hover:bg-brand-card/50"
-              }`}
-            >
-              {link.name}
-              {activeSection === link.href.replace("#", "") && (
-                <motion.div
-                  layoutId="nav-indicator"
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-violet-500 to-violet-500 rounded-full"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
-            </a>
-          ))}
+        {/* DESKTOP MENU (lg and up) */}
+        <div className="hidden lg:flex items-center">
+          <div className="flex items-center gap-1 p-1.5 rounded-full border border-gray-200 bg-gray-50 dark:border-brand-card-border dark:bg-brand-card/40">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.replace("#", "");
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`relative px-4 xl:px-5 py-2 text-sm font-semibold rounded-full whitespace-nowrap transition-colors duration-300 ${
+                    isActive
+                      ? "text-gray-900 dark:text-[#42F29E]"
+                      : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-[#42F29E]"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      className="absolute inset-0 rounded-full bg-[#42F29E] shadow-md shadow-[#42F29E]/40 dark:bg-[#42F29E]/15 dark:border dark:border-[#42F29E]/40 dark:shadow-[0_0_18px_rgba(66,242,158,0.25)]"
+                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">{link.name}</span>
+                </a>
+              );
+            })}
+          </div>
 
           {/* THEME TOGGLE */}
           <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="ml-4 p-2.5 rounded-xl bg-brand-card/50 border border-brand-card-border hover:border-violet-500/30 hover:bg-violet-500/10 transition-all duration-300 text-gray-400 hover:text-violet-400"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="ml-4 p-2.5 rounded-full bg-gray-100 border border-gray-200 text-gray-600 hover:border-[#42F29E] hover:bg-[#42F29E]/10 hover:text-gray-900 dark:bg-brand-card/50 dark:border-brand-card-border dark:text-gray-400 dark:hover:border-[#42F29E]/40 dark:hover:text-[#42F29E] transition-all duration-300"
           >
-            {theme === "dark" ? <FaSun className="w-4 h-4" /> : <FaMoon className="w-4 h-4" />}
+            {theme === "dark" ? (
+              <FaSun className="w-4 h-4" />
+            ) : (
+              <FaMoon className="w-4 h-4" />
+            )}
           </button>
         </div>
 
-        {/* MOBILE BUTTONS */}
-        <div className="md:hidden flex items-center gap-3">
+        {/* MOBILE + TABLET BUTTONS (below lg) */}
+        <div className="lg:hidden flex items-center gap-2 sm:gap-3">
           <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2.5 rounded-xl bg-brand-card/50 border border-brand-card-border text-gray-400 hover:text-violet-400 transition-all"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="p-2.5 rounded-full bg-gray-100 border border-gray-200 text-gray-600 hover:border-[#42F29E] hover:bg-[#42F29E]/10 hover:text-gray-900 dark:bg-brand-card/50 dark:border-brand-card-border dark:text-gray-400 dark:hover:text-[#42F29E] transition-all"
           >
-            {theme === "dark" ? <FaSun className="w-4 h-4" /> : <FaMoon className="w-4 h-4" />}
+            {theme === "dark" ? (
+              <FaSun className="w-4 h-4 sm:w-5 sm:h-5" />
+            ) : (
+              <FaMoon className="w-4 h-4 sm:w-5 sm:h-5" />
+            )}
           </button>
 
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2.5 rounded-xl bg-brand-card/50 border border-brand-card-border text-gray-400 hover:text-violet-400 transition-all"
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+            className="p-2.5 rounded-full bg-gray-100 border border-gray-200 text-gray-600 hover:border-[#42F29E] hover:bg-[#42F29E]/10 hover:text-gray-900 dark:bg-brand-card/50 dark:border-brand-card-border dark:text-gray-400 dark:hover:text-[#42F29E] transition-all"
           >
-            {isMenuOpen ? <FaTimes className="w-4 h-4" /> : <FaBars className="w-4 h-4" />}
+            {isMenuOpen ? (
+              <FaTimes className="w-4 h-4 sm:w-5 sm:h-5" />
+            ) : (
+              <FaBars className="w-4 h-4 sm:w-5 sm:h-5" />
+            )}
           </button>
         </div>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE + TABLET MENU */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden border-t border-brand-card-border bg-brand-dark/95 backdrop-blur-xl"
+            className="lg:hidden overflow-y-auto max-h-[calc(100vh-4rem)] border-t border-gray-200 bg-white dark:border-brand-card-border dark:bg-brand-dark/95 dark:backdrop-blur-xl"
           >
-            <div className="flex flex-col px-4 py-4 gap-1">
-              {navLinks.map((link, i) => (
-                <a
-                  key={i}
-                  href={link.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                    activeSection === link.href.replace("#", "")
-                      ? "text-violet-400 bg-violet-500/10"
-                      : "text-gray-400 hover:text-text-primary hover:bg-brand-card/50"
-                  }`}
-                >
-                  {link.name}
-                </a>
-              ))}
+            <div className="flex flex-col px-4 sm:px-6 py-4 gap-2 sm:grid sm:grid-cols-2">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.replace("#", "");
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`group flex items-center justify-between px-4 py-3 rounded-xl text-sm sm:text-base font-semibold border transition-all ${
+                      isActive
+                        ? "bg-[#42F29E] text-gray-900 border-[#42F29E] shadow-md shadow-[#42F29E]/30 dark:bg-[#42F29E]/15 dark:text-[#42F29E] dark:border-[#42F29E]/40 dark:shadow-none"
+                        : "bg-gray-50 text-gray-700 border-gray-200 hover:border-[#42F29E] hover:text-gray-900 dark:bg-brand-card/40 dark:text-gray-400 dark:border-brand-card-border dark:hover:text-[#42F29E] dark:hover:border-[#42F29E]/40"
+                    }`}
+                  >
+                    {link.name}
+                    <span
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        isActive
+                          ? "bg-gray-900 dark:bg-[#42F29E]"
+                          : "bg-transparent group-hover:bg-[#42F29E]"
+                      }`}
+                    />
+                  </a>
+                );
+              })}
             </div>
           </motion.div>
         )}
