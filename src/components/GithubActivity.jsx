@@ -106,7 +106,7 @@ const GithubActivity = () => {
   return (
     <section
       id="github"
-      className="relative pb-16 pt-3 lg:pt-10 md:pb-20 lg:pb-24 dark:bg-background overflow-hidden"
+      className="relative pb-16 pt-3 lg:pt-13 md:pb-20 lg:pb-24 dark:bg-background overflow-hidden"
     >
       {/* MAIN CONTAINER — same width as navbar */}
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">

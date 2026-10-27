@@ -8,7 +8,67 @@ import {
   FaFacebook,
   FaArrowUp,
   FaHeart,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaArrowRight,
 } from "react-icons/fa";
+
+const quickLinks = [
+  "Home",
+  "About",
+  "Skills",
+  "Projects",
+  "Qualifications",
+  "Contact",
+];
+
+const services = [
+  "Full Stack Development",
+  "Frontend Development",
+  "Backend API",
+  "MongoDB Database",
+  "Authentication",
+  "Responsive Design",
+];
+
+const socials = [
+  {
+    name: "GitHub",
+    icon: <FaGithub />,
+    href: "https://github.com/rahimsoftdev",
+  },
+  {
+    name: "LinkedIn",
+    icon: <FaLinkedin />,
+    href: "https://www.linkedin.com/in/rahimsoftdev/",
+  },
+  {
+    name: "Facebook",
+    icon: <FaFacebook />,
+    href: "https://web.facebook.com/rahimsoftdev/",
+  },
+];
+
+const contactInfo = [
+  {
+    icon: <FaPhoneAlt />,
+    text: "+880 1873-135444",
+    href: "tel:+8801873135444",
+  },
+  {
+    icon: <FaEnvelope />,
+    text: "webdesignrahim4061@gmail.com",
+    href: "mailto:webdesignrahim4061@gmail.com",
+  },
+  {
+    icon: <FaMapMarkerAlt />,
+    text: "Dhaka, Bangladesh",
+  },
+];
+
+const headingClass =
+  "mb-4 sm:mb-5 text-sm sm:text-base font-bold text-gray-900 dark:text-text-primary";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -17,140 +77,153 @@ const Footer = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const quickLinks = ["Home", "About", "Skills", "Projects", "Qualifications", "Contact"];
-
   return (
-    <footer className="relative overflow-hidden border-t border-brand-card-border bg-gradient-to-b from-brand-dark to-brand-dark">
-      {/* Gradient top line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
+    <footer className="relative overflow-hidden border-t border-gray-200 dark:border-brand-card-border bg-gray-50 dark:bg-background">
+      {/* Accent top line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#42F29E] to-transparent" />
 
-      {/* Background glow */}
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-br from-violet-500/3 via-violet-500/3 to-transparent blur-3xl rounded-full" />
-      <div className="absolute bottom-0 right-0 w-64 h-64 bg-gradient-to-t from-violet-500/5 to-transparent blur-3xl rounded-full" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12">
-          {/* Brand */}
+      {/* MAIN CONTAINER — same width as navbar */}
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-12 sm:pt-14 lg:pt-16 pb-6 sm:pb-8">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+          {/* ================= BRAND ================= */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-1"
+            transition={{ duration: 0.5 }}
           >
-            <h2 className="text-3xl font-black mb-4">
-              Md{" "}
-              <span className="bg-gradient-to-r from-violet-400 to-violet-500 bg-clip-text text-transparent">
-                Rahim
-              </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-text-primary">
+              Md <span className="text-[#42F29E]">Rahim</span>
             </h2>
-            <p className="text-text-secondary leading-relaxed text-sm">
+            <p className="mt-3 sm:mt-4 text-xs sm:text-sm leading-relaxed text-gray-600 dark:text-text-secondary">
               Full Stack Developer crafting modern, scalable web experiences
               with Next.js, React, Node.js and MongoDB.
             </p>
-            <div className="mt-6 flex gap-4">
-              {[
-                { icon: <FaGithub />, href: "https://github.com/rahimsoftdev" },
-                { icon: <FaLinkedin />, href: "https://www.linkedin.com/in/rahimsoftdev/" },
-                { icon: <FaFacebook />, href: "https://web.facebook.com/rahimsoftdev/" },
-              ].map((social, i) => (
+
+            <div className="mt-5 sm:mt-6 flex gap-3">
+              {socials.map((social) => (
                 <a
-                  key={i}
+                  key={social.name}
                   href={social.href}
                   target="_blank"
-                  className="p-3 rounded-xl bg-brand-card/50 border border-brand-card-border text-text-secondary hover:text-violet-400 hover:border-violet-500/30 hover:bg-violet-500/5 transition-all duration-300"
+                  rel="noopener noreferrer"
+                  aria-label={social.name}
+                  className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl border border-gray-200 dark:border-brand-card-border bg-white dark:bg-brand-card/40 text-base sm:text-lg text-gray-700 dark:text-text-secondary transition-all duration-300 hover:-translate-y-1 hover:border-[#42F29E] hover:bg-[#42F29E] hover:text-gray-900"
                 >
-                  <span className="text-lg">{social.icon}</span>
+                  {social.icon}
                 </a>
               ))}
             </div>
           </motion.div>
 
-          {/* Quick Links */}
+          {/* ================= QUICK LINKS ================= */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="text-base font-bold mb-5 text-text-primary">Quick Links</h3>
-            <div className="space-y-3">
+            <h3 className={headingClass}>Quick Links</h3>
+            <ul className="space-y-2.5 sm:space-y-3">
               {quickLinks.map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="block text-sm text-text-secondary transition-all duration-300 hover:text-violet-400 hover:translate-x-1"
-                >
-                  {item}
-                </a>
+                <li key={item}>
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    className="group inline-flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-text-secondary transition-colors duration-300 hover:text-gray-900 dark:hover:text-[#42F29E]"
+                  >
+                    <FaArrowRight className="text-[9px] text-[#42F29E] opacity-0 -ml-3 transition-all duration-300 group-hover:opacity-100 group-hover:ml-0" />
+                    {item}
+                  </a>
+                </li>
               ))}
-            </div>
+            </ul>
           </motion.div>
 
-          {/* Services */}
+          {/* ================= SERVICES ================= */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="text-base font-bold mb-5 text-text-primary">Services</h3>
-            <div className="space-y-3 text-sm text-text-secondary">
-              {[
-                "Full Stack Development",
-                "Frontend Development",
-                "Backend API",
-                "MongoDB Database",
-                "Authentication",
-                "Responsive Design",
-              ].map((service, i) => (
-                <p key={i} className="flex items-center gap-2">
-                  <span className="w-1 h-1 rounded-full bg-violet-500/50" />
+            <h3 className={headingClass}>Services</h3>
+            <ul className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-gray-600 dark:text-text-secondary">
+              {services.map((service) => (
+                <li key={service} className="flex items-center gap-2.5">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#42F29E]" />
                   {service}
-                </p>
+                </li>
               ))}
-            </div>
+            </ul>
           </motion.div>
 
-          {/* Contact */}
+          {/* ================= CONTACT ================= */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="text-base font-bold mb-5 text-text-primary">Contact</h3>
-            <div className="space-y-4 text-sm text-text-secondary">
-              <p>+880 1873-135444</p>
-              <p>webdesignrahim4061@gmail.com</p>
-              <p>Dhaka, Bangladesh</p>
-            </div>
+            <h3 className={headingClass}>Contact</h3>
+            <ul className="space-y-3 sm:space-y-4">
+              {contactInfo.map((item) => {
+                const content = (
+                  <>
+                    <span className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-lg bg-[#42F29E] text-xs sm:text-sm text-gray-900">
+                      {item.icon}
+                    </span>
+                    <span className="min-w-0 break-words text-xs sm:text-sm text-gray-600 dark:text-text-secondary">
+                      {item.text}
+                    </span>
+                  </>
+                );
+
+                return (
+                  <li key={item.text}>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        className="flex items-center gap-3 transition-opacity hover:opacity-80"
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      <div className="flex items-center gap-3">{content}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+
             <a
               href="#contact"
-              className="inline-block mt-4 px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-sm font-semibold transition-all hover:shadow-lg hover:shadow-violet-500/25"
+              className="mt-5 sm:mt-6 inline-flex w-full sm:w-auto items-center justify-center rounded-xl bg-[#42F29E] px-5 py-2.5 text-xs sm:text-sm font-semibold text-gray-900 transition-all hover:shadow-lg hover:shadow-[#42F29E]/30 hover:scale-[1.02]"
             >
               Hire Me
             </a>
           </motion.div>
         </div>
 
-        {/* Divider */}
-        <div className="my-12 h-px bg-gradient-to-r from-transparent via-violet-500/20 to-transparent" />
+        {/* ================= DIVIDER ================= */}
+        <div className="my-8 sm:my-10 h-px bg-gray-200 dark:bg-brand-card-border" />
 
-        {/* Bottom */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-text-muted">
+        {/* ================= BOTTOM ================= */}
+        <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-text-muted">
             &copy; {currentYear} Md Rahim. All rights reserved.
           </p>
 
-          <p className="text-sm text-text-muted flex items-center gap-1">
-            Built with <FaHeart className="text-violet-500 text-xs" /> using Next.js
+          <p className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-600 dark:text-text-muted">
+            Built with <FaHeart className="text-xs text-[#42F29E]" /> using
+            Next.js
           </p>
 
           <button
             onClick={scrollTop}
-            className="group p-3 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white shadow-lg transition-all duration-300 hover:shadow-violet-500/25 hover:scale-110"
+            aria-label="Scroll to top"
+            className="group flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-[#42F29E] text-gray-900 transition-all duration-300 hover:shadow-lg hover:shadow-[#42F29E]/30 hover:scale-110"
           >
-            <FaArrowUp className="group-hover:-translate-y-0.5 transition-transform" />
+            <FaArrowUp className="transition-transform group-hover:-translate-y-0.5" />
           </button>
         </div>
       </div>
