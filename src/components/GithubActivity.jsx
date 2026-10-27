@@ -13,15 +13,33 @@ import {
 import { FaGithub } from "react-icons/fa";
 import { GitHubCalendar } from "react-github-calendar";
 
+const username = "rahimsoftdev";
 
+const cardBase =
+  "rounded-2xl border border-gray-200 dark:border-brand-card-border bg-gray-50 dark:bg-brand-card/40";
+
+// Calendar colors in the same green family as the rest of the site
+const calendarTheme = {
+  light: ["#e5e7eb", "#b7f5d8", "#7eeab8", "#42F29E", "#1fb877"],
+  dark: ["#161b22", "#0f5c3a", "#1f9a63", "#2fcf86", "#42F29E"],
+};
 
 const GithubActivity = () => {
-  const username = "rahimsoftdev";
-
   const [user, setUser] = useState(null);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isDark, setIsDark] = useState(true);
+
+  // Follow the Tailwind "dark" class so the calendar matches the page theme
+  useEffect(() => {
+    const root = document.documentElement;
+    const update = () => setIsDark(root.classList.contains("dark"));
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const fetchGithubData = async () => {
@@ -40,11 +58,8 @@ const GithubActivity = () => {
           throw new Error("Failed to fetch GitHub data");
         }
 
-        const userData = await userResponse.json();
-        const reposData = await reposResponse.json();
-
-        setUser(userData);
-        setRepos(reposData);
+        setUser(await userResponse.json());
+        setRepos(await reposResponse.json());
       } catch (err) {
         console.error("GitHub API Error:", err);
         setError("Unable to load GitHub activity.");
@@ -56,49 +71,62 @@ const GithubActivity = () => {
     fetchGithubData();
   }, []);
 
-  const totalStars = repos.reduce(
-    (total, repo) => total + repo.stargazers_count,
-    0
-  );
+  const totalStars = repos.reduce((t, r) => t + r.stargazers_count, 0);
+  const totalForks = repos.reduce((t, r) => t + r.forks_count, 0);
 
-  const totalForks = repos.reduce(
-    (total, repo) => total + repo.forks_count,
-    0
-  );
+  const stats = user
+    ? [
+        {
+          label: "Repositories",
+          value: user.public_repos,
+          caption: "Public repositories",
+          icon: <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />,
+        },
+        {
+          label: "Followers",
+          value: user.followers,
+          caption: "GitHub followers",
+          icon: <Users className="w-4 h-4 sm:w-5 sm:h-5" />,
+        },
+        {
+          label: "Stars",
+          value: totalStars,
+          caption: "Total repository stars",
+          icon: <Star className="w-4 h-4 sm:w-5 sm:h-5" />,
+        },
+        {
+          label: "Forks",
+          value: totalForks,
+          caption: "Total repository forks",
+          icon: <GitFork className="w-4 h-4 sm:w-5 sm:h-5" />,
+        },
+      ]
+    : [];
 
   return (
     <section
       id="github"
-      className="relative overflow-hidden border-t border-brand-card-border/50 bg-background px-4 py-24 sm:px-6 lg:px-8 lg:py-32"
+      className="relative pb-16 pt-3 lg:pt-10 md:pb-20 lg:pb-24 dark:bg-background overflow-hidden"
     >
-      {/* Background decorations */}
-      <div className="pointer-events-none absolute left-0 top-0 h-96 w-96 rounded-full bg-violet-500/5 blur-3xl" />
-
-      <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-fuchsia-500/5 blur-3xl" />
-
-      <div className="relative z-10 mx-auto max-w-7xl">
+      {/* MAIN CONTAINER — same width as navbar */}
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         {/* ================= HEADER ================= */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-14 text-center"
+          className="text-center mb-10 md:mb-14"
         >
-          <p className="mb-3 text-sm font-medium uppercase tracking-[0.3em] text-violet-500">
+          <p className="text-[#42F29E] font-medium tracking-widest uppercase text-xs sm:text-sm mb-2">
             Open Source
           </p>
-
-          <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-            GitHub{" "}
-            <span className="gradient-text">
-              Activity
-            </span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-text-primary">
+            GitHub <span className="text-[#42F29E]">Activity</span>
           </h2>
+          <div className="mt-3 mx-auto w-16 h-1 bg-[#42F29E] rounded-full" />
 
-          <div className="mx-auto mt-5 h-1 w-20 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500" />
-
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
+          <p className="mx-auto mt-4 max-w-2xl text-xs sm:text-sm md:text-base leading-relaxed text-gray-600 dark:text-text-secondary">
             A glimpse of my coding consistency, open-source contributions,
             repositories, and GitHub activity.
           </p>
@@ -106,30 +134,32 @@ const GithubActivity = () => {
 
         {/* ================= LOADING ================= */}
         {loading && (
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="space-y-5 sm:space-y-6">
+            <div className={`${cardBase} h-28 sm:h-32 animate-pulse`} />
+            <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
               {[1, 2, 3, 4].map((item) => (
                 <div
                   key={item}
-                  className="h-32 animate-pulse rounded-3xl border border-brand-card-border/50 bg-brand-card/50"
+                  className={`${cardBase} h-28 sm:h-32 animate-pulse`}
                 />
               ))}
             </div>
-
-            <div className="h-52 animate-pulse rounded-3xl border border-brand-card-border/50 bg-brand-card/50" />
+            <div className={`${cardBase} h-44 sm:h-52 animate-pulse`} />
           </div>
         )}
 
         {/* ================= ERROR ================= */}
         {error && !loading && (
-          <div className="rounded-3xl border border-red-500/20 bg-red-500/5 p-8 text-center">
-            <p className="text-red-400">{error}</p>
+          <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-6 sm:p-8 text-center">
+            <p className="text-sm sm:text-base text-red-500 dark:text-red-400">
+              {error}
+            </p>
 
             <a
               href={`https://github.com/${username}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 rounded-xl bg-violet-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-violet-600"
+              className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#42F29E] px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-gray-900 transition hover:shadow-lg hover:shadow-[#42F29E]/30"
             >
               Visit GitHub
               <ExternalLink size={16} />
@@ -139,29 +169,29 @@ const GithubActivity = () => {
 
         {/* ================= CONTENT ================= */}
         {user && !loading && !error && (
-          <>
+          <div className="space-y-5 sm:space-y-6 lg:space-y-8">
             {/* ================= PROFILE ================= */}
             <motion.div
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="mb-8 rounded-3xl border border-brand-card-border/50 bg-brand-card/70 p-6 backdrop-blur-xl"
+              className={`${cardBase} p-4 sm:p-5 lg:p-6`}
             >
-              <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div className="flex flex-col items-center justify-between gap-5 sm:flex-row">
                 <div className="flex flex-col items-center gap-4 sm:flex-row">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={user.avatar_url}
-                    alt={`${username} GitHub profile`}
-                    className="h-20 w-20 rounded-2xl border-2 border-violet-500/40"
+                    alt={`${user.login} GitHub profile`}
+                    className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl border-2 border-[#42F29E]"
                   />
 
                   <div className="text-center sm:text-left">
-                    <h3 className="text-xl font-bold">
+                    <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-text-primary">
                       {user.name || user.login}
                     </h3>
-
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="mt-1 text-xs sm:text-sm font-medium text-gray-700 dark:text-[#42F29E]">
                       @{user.login}
                     </p>
                   </div>
@@ -171,7 +201,7 @@ const GithubActivity = () => {
                   href={user.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl border border-violet-500/30 bg-violet-500/10 px-5 py-3 text-sm font-semibold text-violet-400 transition hover:bg-violet-500 hover:text-white"
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#42F29E] px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-gray-900 transition hover:shadow-lg hover:shadow-[#42F29E]/30 hover:scale-[1.02]"
                 >
                   <FaGithub size={18} />
                   View GitHub Profile
@@ -181,135 +211,53 @@ const GithubActivity = () => {
             </motion.div>
 
             {/* ================= STATS ================= */}
-            <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {/* Repositories */}
-              <motion.div
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4 }}
-                className="group rounded-3xl border border-brand-card-border/50 bg-brand-card/70 p-6 backdrop-blur-xl transition hover:-translate-y-1 hover:border-violet-500/40"
-              >
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="rounded-xl bg-violet-500/10 p-3 text-violet-400">
-                    <BookOpen size={22} />
+            <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className={`${cardBase} p-4 sm:p-5 lg:p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#42F29E]/60 hover:shadow-lg hover:shadow-[#42F29E]/10`}
+                >
+                  <div className="mb-3 sm:mb-4 flex items-center justify-between gap-2">
+                    <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-[#42F29E] text-gray-900">
+                      {stat.icon}
+                    </div>
+                    <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-text-secondary text-right">
+                      {stat.label}
+                    </span>
                   </div>
 
-                  <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                    Repositories
-                  </span>
-                </div>
-
-                <p className="text-3xl font-bold">
-                  {user.public_repos}
-                </p>
-
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Public repositories
-                </p>
-              </motion.div>
-
-              {/* Followers */}
-              <motion.div
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.1 }}
-                className="group rounded-3xl border border-brand-card-border/50 bg-brand-card/70 p-6 backdrop-blur-xl transition hover:-translate-y-1 hover:border-violet-500/40"
-              >
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="rounded-xl bg-violet-500/10 p-3 text-violet-400">
-                    <Users size={22} />
-                  </div>
-
-                  <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                    Followers
-                  </span>
-                </div>
-
-                <p className="text-3xl font-bold">
-                  {user.followers}
-                </p>
-
-                <p className="mt-1 text-sm text-muted-foreground">
-                  GitHub followers
-                </p>
-              </motion.div>
-
-              {/* Stars */}
-              <motion.div
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                className="group rounded-3xl border border-brand-card-border/50 bg-brand-card/70 p-6 backdrop-blur-xl transition hover:-translate-y-1 hover:border-violet-500/40"
-              >
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="rounded-xl bg-violet-500/10 p-3 text-violet-400">
-                    <Star size={22} />
-                  </div>
-
-                  <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                    Stars
-                  </span>
-                </div>
-
-                <p className="text-3xl font-bold">
-                  {totalStars}
-                </p>
-
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Total repository stars
-                </p>
-              </motion.div>
-
-              {/* Forks */}
-              <motion.div
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.3 }}
-                className="group rounded-3xl border border-brand-card-border/50 bg-brand-card/70 p-6 backdrop-blur-xl transition hover:-translate-y-1 hover:border-violet-500/40"
-              >
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="rounded-xl bg-violet-500/10 p-3 text-violet-400">
-                    <GitFork size={22} />
-                  </div>
-
-                  <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                    Forks
-                  </span>
-                </div>
-
-                <p className="text-3xl font-bold">
-                  {totalForks}
-                </p>
-
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Total repository forks
-                </p>
-              </motion.div>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-text-primary">
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-[11px] sm:text-sm text-gray-600 dark:text-text-secondary">
+                    {stat.caption}
+                  </p>
+                </motion.div>
+              ))}
             </div>
 
             {/* ================= CONTRIBUTION CALENDAR ================= */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="rounded-3xl border border-brand-card-border/50 bg-brand-card/70 p-5 backdrop-blur-xl sm:p-8"
+              transition={{ duration: 0.5 }}
+              className={`${cardBase} p-4 sm:p-6 lg:p-8`}
             >
-              <div className="mb-6 flex items-center gap-3">
-                <div className="rounded-xl bg-violet-500/10 p-3 text-violet-400">
-                  <GitCommit size={22} />
+              <div className="mb-5 sm:mb-6 flex items-center gap-3">
+                <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-[#42F29E] text-gray-900">
+                  <GitCommit className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-bold sm:text-xl">
+                  <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-text-primary">
                     Contribution Activity
                   </h3>
-
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-text-secondary">
                     My GitHub contributions over the past year
                   </p>
                 </div>
@@ -321,20 +269,12 @@ const GithubActivity = () => {
                   blockSize={13}
                   blockMargin={4}
                   fontSize={13}
-                  colorScheme="dark"
-                  theme={{
-                    dark: [
-                      "#161b22",
-                      "#3b1f63",
-                      "#5b2c91",
-                      "#7c3aed",
-                      "#a855f7",
-                    ],
-                  }}
+                  colorScheme={isDark ? "dark" : "light"}
+                  theme={calendarTheme}
                 />
               </div>
             </motion.div>
-          </>
+          </div>
         )}
       </div>
     </section>
