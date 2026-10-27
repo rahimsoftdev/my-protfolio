@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
+
 :root {
   color-scheme: light;
   --background: #f6f7f9;
@@ -12,14 +13,17 @@
   --brand-dark: #f8f9fb;
   --brand-card: #ffffff;
   --brand-card-border: rgba(15, 23, 42, 0.1);
-  --brand-violet: #8b5cf6;
-  --brand-violet-hover: #7c3aed;
 
-  --mesh-color-1: rgba(139, 92, 246, 0.04);
-  --mesh-color-2: rgba(124, 58, 237, 0.03);
-  --mesh-color-3: rgba(139, 92, 246, 0.02);
+  /* Accent (names kept as "brand-violet" so existing classes keep working) */
+  --brand-violet: #42f29e;
+  --brand-violet-hover: #2fcf86;
+
+  --accent-rgb: 66, 242, 158;
+
+  --mesh-color-1: rgba(66, 242, 158, 0.06);
+  --mesh-color-2: rgba(47, 207, 134, 0.04);
+  --mesh-color-3: rgba(66, 242, 158, 0.03);
 }
-
 
 .dark {
   color-scheme: dark;
@@ -33,12 +37,15 @@
   --brand-dark: #07080c;
   --brand-card: #0f1520;
   --brand-card-border: rgba(148, 163, 184, 0.14);
-  --brand-violet: #8b5cf6;
-  --brand-violet-hover: #7c3aed;
 
-  --mesh-color-1: rgba(139, 92, 246, 0.08);
-  --mesh-color-2: rgba(124, 58, 237, 0.06);
-  --mesh-color-3: rgba(139, 92, 246, 0.04);
+  --brand-violet: #42f29e;
+  --brand-violet-hover: #2fcf86;
+
+  --accent-rgb: 66, 242, 158;
+
+  --mesh-color-1: rgba(66, 242, 158, 0.08);
+  --mesh-color-2: rgba(47, 207, 134, 0.06);
+  --mesh-color-3: rgba(66, 242, 158, 0.04);
 }
 
 @theme inline {
@@ -63,8 +70,8 @@
   --animate-shimmer: shimmer 3s ease-in-out infinite;
 
   @keyframes glow {
-    0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
-    50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.4); }
+    0%, 100% { box-shadow: 0 0 20px rgba(66, 242, 158, 0.2); }
+    50% { box-shadow: 0 0 40px rgba(66, 242, 158, 0.4); }
   }
 
   @keyframes marquee {
@@ -104,50 +111,44 @@ body {
   background-attachment: fixed;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #8b5cf6, #d946ef);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.dark .gradient-text {
-  background: linear-gradient(135deg, #8b5cf6, #d946ef);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.dark .gradient-text-violet {
-  background: linear-gradient(135deg, #8b5cf6, #d946ef);
+/* Gradient text — green */
+.gradient-text,
+.gradient-text-violet {
+  background: linear-gradient(135deg, #42f29e, #1fb877);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .mesh-bg {
-  background: linear-gradient(-45deg, var(--mesh-color-1), var(--mesh-color-2), var(--mesh-color-3), var(--mesh-color-1));
+  background: linear-gradient(
+    -45deg,
+    var(--mesh-color-1),
+    var(--mesh-color-2),
+    var(--mesh-color-3),
+    var(--mesh-color-1)
+  );
   background-size: 300% 300%;
   animation: mesh 15s ease infinite;
 }
 
 .card-gradient-border {
   position: relative;
-  background: linear-gradient(135deg, rgba(139,92,246,0.06), rgba(139,92,246,0.02));
-  border: 1px solid rgba(139,92,246,0.1);
+  background: linear-gradient(135deg, rgba(66, 242, 158, 0.06), rgba(66, 242, 158, 0.02));
+  border: 1px solid rgba(66, 242, 158, 0.15);
 }
 
 .dark .card-gradient-border {
-  background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(139,92,246,0.03));
+  background: linear-gradient(135deg, rgba(66, 242, 158, 0.1), rgba(66, 242, 158, 0.03));
 }
 
 .card-gradient-border::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(217,70,239,0.2));
+  background: linear-gradient(135deg, rgba(66, 242, 158, 0.5), rgba(31, 184, 119, 0.3));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -162,24 +163,43 @@ body {
 
 .section-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(66, 242, 158, 0.4), transparent);
   margin: 0 auto;
   width: 80%;
 }
 
+/* ================= SCROLLBAR ================= */
+
+/* Chrome, Edge, Safari */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--brand-dark);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--brand-violet);
-  border-radius: 3px;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-violet-hover);
+  background-clip: padding-box;
+}
+
+/* Firefox only — in new Chrome, scrollbar-color would override the rules above */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--brand-violet) transparent;
+  }
 }
 
 ::selection {
-  background: rgba(139, 92, 246, 0.3);
+  background: rgba(66, 242, 158, 0.3);
 }
